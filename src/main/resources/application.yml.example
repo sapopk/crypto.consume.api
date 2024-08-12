@@ -1,0 +1,10 @@
+spring:
+  config:
+    import: optional:classpath:config/api.properties.example
+
+server:
+  port: 8081
+
+api:
+  url: ${CMC_API_URL}
+  key: ${CMC_API_KEY}
