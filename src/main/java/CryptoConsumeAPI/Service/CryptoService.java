@@ -55,4 +55,11 @@ public class CryptoService {
                 .filter(crypto -> crypto.getCoinName().equalsIgnoreCase(name))
                 .next();
     }
+
+    public Mono<Crypto> getCryptoBySymbol(String symbol) {
+        return getCryptoDataList()
+                .flatMapMany(Flux::fromIterable)
+                .filter(crypto -> crypto.getCoinSymbol().equalsIgnoreCase(symbol))
+                .next();
+    }
 }

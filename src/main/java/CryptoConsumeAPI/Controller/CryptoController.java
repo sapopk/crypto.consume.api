@@ -33,8 +33,13 @@ public class CryptoController {
         return cryptoService.getCryptoDataList();
     }
 
-    @GetMapping("/search/{name}")
+    @GetMapping("/search/name/{name}")
     public Mono<Crypto> getCryptoByName(@PathVariable String name) {
         return cryptoService.getCryptoByName(name);
+    }
+
+    @GetMapping("/search/symbol/{symbol}")
+    public  Mono<Crypto> getCryptoBySymbol(@PathVariable String symbol) {
+        return cryptoService.getCryptoBySymbol(symbol);
     }
 }
