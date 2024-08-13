@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -46,5 +47,12 @@ public class CryptoService {
                 .retrieve()
                 .bodyToMono(CryptoApiResponse.class)
                 .map(CryptoApiResponse::getData);
+    }
+
+    public Mono<Crypto> getCryptoByName(String name) {
+        return getCryptoDataList()
+                .flatMapMany(Flux::fromIterable)
+                .filter(crypto -> crypto.getCoinName().equalsIgnoreCase(name))
+                .next();
     }
 }

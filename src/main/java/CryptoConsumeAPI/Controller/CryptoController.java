@@ -5,6 +5,7 @@ import CryptoConsumeAPI.Entity.CryptoApiResponse;
 import CryptoConsumeAPI.Service.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -30,5 +31,10 @@ public class CryptoController {
     @GetMapping("/list")
     public Mono<List<Crypto>> getAllCryptoData() {
         return cryptoService.getCryptoDataList();
+    }
+
+    @GetMapping("/search/{name}")
+    public Mono<Crypto> getCryptoByName(@PathVariable String name) {
+        return cryptoService.getCryptoByName(name);
     }
 }
