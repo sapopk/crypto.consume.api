@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/crypto")
@@ -41,5 +42,10 @@ public class CryptoController {
     @GetMapping("/search/symbol/{symbol}")
     public  Mono<Crypto> getCryptoBySymbol(@PathVariable String symbol) {
         return cryptoService.getCryptoBySymbol(symbol);
+    }
+
+    @GetMapping("/table")
+    public Mono<List<Map<String, Object>>> getAllCryptoList() {
+        return cryptoService.getCryptoList();
     }
 }
