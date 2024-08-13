@@ -1,2 +1,3 @@
-CMC_API_URL=https://api.example.com
+CMC_API_URL=https://pro-api.coinmarketcap.com/v1/cryptocurrency/trending/latest
 CMC_API_KEY=your_api_key_here
+CMC_API_HEADER_NAME=X-CMC_PRO_API_KEY (Change it based in your requirements)

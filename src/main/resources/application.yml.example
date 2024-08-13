@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: Crypto API Consume (Coin Market Cap)
   config:
     import: optional:classpath:config/api.properties.example
 
@@ -8,3 +10,9 @@ server:
 api:
   url: ${CMC_API_URL}
   key: ${CMC_API_KEY}
+  header: ${CMC_API_HEADER_NAME}
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.web.reactive.function.client.WebClient: DEBUG
