@@ -27,6 +27,7 @@ public class CryptoService {
 
     private final WebClient webClient;
 
+
     @Autowired
     public CryptoService(WebClient.Builder client) {
         this.webClient = client.build();
@@ -65,7 +66,7 @@ public class CryptoService {
                 .next();
     }
 
-    public Mono<List<Map<String, Object>>> getCryptoList() {
+    public Mono<List<Map<String, Object>>> getCryptoTable() {
         return webClient.get()
                 .uri(apiUrl)
                 .header(apiHeader, apiKey)
@@ -76,6 +77,52 @@ public class CryptoService {
                 .map(this::getCryptoMap)
                 .collectList();
     }
+
+    public Mono<List<Map<String, Object>>> getCryptoTableBySymbol(String symbol) {
+        return webClient.get()
+                .uri(apiUrl)
+                .header(apiHeader, apiKey)
+                .retrieve()
+                .bodyToMono(CryptoApiResponse.class)
+                .map(CryptoApiResponse::getData)
+                .flatMapMany(Flux::fromIterable)
+                .filter(crypto -> crypto.getCoinSymbol().equalsIgnoreCase(symbol))
+                .map(this::getCryptoMap)
+                .collectList();
+    }
+
+    public Mono<List<Map<String, Object>>> getCryptoTableByName(String name) {
+        return webClient.get()
+                .uri(apiUrl)
+                .header(apiHeader, apiKey)
+                .retrieve()
+                .bodyToMono(CryptoApiResponse.class)
+                .map(CryptoApiResponse::getData)
+                .flatMapMany(Flux::fromIterable)
+                .filter(crypto -> crypto.getCoinName().equalsIgnoreCase(name))
+                .map(this::getCryptoMap)
+                .collectList();
+    }
+
+    public Mono<List<Map<String, Object>>> getCryptoTableByNameOrSymbol(String input) {
+        String lowerCaseInput = input.toLowerCase();
+
+        return webClient.get()
+                .uri(apiUrl)
+                .header(apiHeader, apiKey)
+                .retrieve()
+                .bodyToMono(CryptoApiResponse.class)
+                .map(CryptoApiResponse::getData)
+                .flatMapMany(Flux::fromIterable)
+                .filter(crypto -> {
+                    String coinNameLower = crypto.getCoinName().toLowerCase();
+                    String coinSymbolLower = crypto.getCoinSymbol().toLowerCase();
+                    return coinNameLower.contains(lowerCaseInput) || coinSymbolLower.contains(lowerCaseInput);
+                })
+                .map(this::getCryptoMap)
+                .collectList();
+    }
+
 
     private Map<String, Object> getCryptoMap(Crypto crypto) {
         Map<String, Object> map = new LinkedHashMap<>();

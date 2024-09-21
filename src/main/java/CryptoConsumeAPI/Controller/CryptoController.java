@@ -34,18 +34,33 @@ public class CryptoController {
         return cryptoService.getCryptoDataList();
     }
 
-    @GetMapping("/search/name/{name}")
+    @GetMapping("/data/name/{name}")
     public Mono<Crypto> getCryptoByName(@PathVariable String name) {
         return cryptoService.getCryptoByName(name);
     }
 
-    @GetMapping("/search/symbol/{symbol}")
-    public  Mono<Crypto> getCryptoBySymbol(@PathVariable String symbol) {
+    @GetMapping("/data/symbol/{symbol}")
+    public Mono<Crypto> getCryptoBySymbol(@PathVariable String symbol) {
         return cryptoService.getCryptoBySymbol(symbol);
     }
 
     @GetMapping("/table")
     public Mono<List<Map<String, Object>>> getAllCryptoList() {
-        return cryptoService.getCryptoList();
+        return cryptoService.getCryptoTable();
+    }
+
+    @GetMapping("/table/search/name/{name}")
+    public Mono<List<Map<String, Object>>> searchCryptoListByName(@PathVariable String name) {
+        return cryptoService.getCryptoTableByName(name);
+    }
+
+    @GetMapping("/table/search/symbol/{symbol}")
+    public Mono<List<Map<String, Object>>> searchCryptoListBySymbol(@PathVariable String symbol) {
+        return cryptoService.getCryptoTableBySymbol(symbol);
+    }
+
+    @GetMapping("/table/search/{input}")
+    public Mono<List<Map<String, Object>>> searchCryptoListByNameOrSymbol(@PathVariable String input) {
+        return cryptoService.getCryptoTableByNameOrSymbol(input);
     }
 }
